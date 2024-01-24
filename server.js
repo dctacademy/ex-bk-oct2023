@@ -1,3 +1,4 @@
+require('dotenv').config() // npm install dotenv
 const express = require('express')  // npm install express
 const { checkSchema } = require('express-validator')
 const cors = require('cors') // npm install cors
@@ -7,6 +8,7 @@ const port = 3050
 const configureDB = require('./config/db') 
 const categoriesCltr = require('./app/controllers/categories-controller')
 const expensesCltr = require('./app/controllers/expenses-controller')
+const usersCltr = require('./app/controllers/users-controller')
 
 const categoryValidationSchema = require('./app/validations/category-validation')
 const expenseValidationSchema = require('./app/validations/expense-validation')
@@ -25,6 +27,8 @@ app.get('/api/expenses', expensesCltr.list)
 app.post('/api/expenses', checkSchema(expenseValidationSchema), expensesCltr.create)
 app.put('/api/expenses/:id', checkSchema(expenseValidationSchema), expensesCltr.update)
 app.delete('/api/expenses/:id', expensesCltr.destroy)
+
+app.post('/api/users/login', usersCltr.login)
 
 app.listen(3050, () => {
     console.log('expense app is successfully running on port', port)
